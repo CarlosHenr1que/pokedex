@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
 import {RefreshControl, Alert, FlatList} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import {Container} from './styles';
 
 import api from '../../services/api';
@@ -13,6 +14,8 @@ const Home: React.FC = () => {
   const [pokemonList, setPokemonList] = useState<PokemonType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [currentOffSet, setCurrentOffSet] = useState<number>(0);
+  const navigation = useNavigation();
+
   const LIMIT = 20;
 
   const getPokemons = async () => {
@@ -33,6 +36,10 @@ const Home: React.FC = () => {
     setCurrentOffSet(currentOffSet + LIMIT);
   };
 
+  const onPokemonPress = (pokemon: PokemonType) => {
+    navigation.navigate('PokemonDetail', {pokemon});
+  };
+
   useEffect(() => {
     getPokemons();
   }, [currentOffSet]);
@@ -50,7 +57,9 @@ const Home: React.FC = () => {
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0}
         keyExtractor={item => item.id}
-        renderItem={({item}) => <Pokemon pokemon={item} />}
+        renderItem={({item}) => (
+          <Pokemon onPress={onPokemonPress} pokemon={item} />
+        )}
       />
     </Container>
   );
