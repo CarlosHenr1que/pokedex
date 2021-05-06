@@ -1,6 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {useRoute} from '@react-navigation/native';
 import {Alert} from 'react-native';
+import Tts from 'react-native-tts';
 import Header from '../../components/Header';
 import PokedexScreen from '../../components/PokedexScreen';
 import {PokemonType} from '../../components/Pokemon';
@@ -8,6 +9,7 @@ import {PokemonType} from '../../components/Pokemon';
 import api from '../../services/api';
 
 import {Container} from './styles';
+import TextToSpeechUtil from '../../utils/TextToSpeeachUtil';
 
 interface Params {
   pokemon: PokemonType;
@@ -28,6 +30,9 @@ const PokemonDetail: React.FC = () => {
   const [pokemonDetail, setPokemonDetail] = useState({} as PokemonDetail);
   const route = useRoute();
   const routeParams = route.params as Params;
+  const textToSpeach = useMemo(() => {
+    return new TextToSpeechUtil(Tts);
+  }, []);
 
   const getPokemonDetails = async (id: string) => {
     try {
@@ -38,6 +43,20 @@ const PokemonDetail: React.FC = () => {
       Alert.alert('Error', 'Could not load detail');
     }
   };
+
+  useEffect(() => {
+    if (Object.entries(pokemonDetail).length > 0) {
+      textToSpeach.isReady().then(() => {
+        textToSpeach.speak(routeParams.pokemon.name);
+      });
+    }
+  }, [pokemonDetail, routeParams.pokemon.name, textToSpeach]);
+
+  useEffect(() => {
+    return () => {
+      textToSpeach.stop();
+    };
+  }, [textToSpeach]);
 
   useEffect(() => {
     getPokemonDetails(routeParams.pokemon.id);
