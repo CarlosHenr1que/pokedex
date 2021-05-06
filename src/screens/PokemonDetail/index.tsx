@@ -1,6 +1,6 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {useRoute} from '@react-navigation/native';
-import {Alert} from 'react-native';
+import Toast from 'react-native-toast-message';
 import Tts from 'react-native-tts';
 import Header from '../../components/Header';
 import PokedexScreen from '../../components/PokedexScreen';
@@ -40,7 +40,11 @@ const PokemonDetail: React.FC = () => {
 
       setPokemonDetail(data);
     } catch (error) {
-      Alert.alert('Error', 'Could not load detail');
+      Toast.show({
+        type: 'error',
+        text1: 'Ops, something went wrong',
+        text2: 'Could not load pokemon detail',
+      });
     }
   };
 

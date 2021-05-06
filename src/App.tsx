@@ -2,6 +2,7 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import {StatusBar, useColorScheme} from 'react-native';
 import {ThemeProvider} from 'styled-components/native';
+import Toast from 'react-native-toast-message';
 import Routes from './routes';
 
 import themes from './styles/themes';
@@ -23,6 +24,7 @@ const App: React.FC = () => {
     <ThemeProvider theme={theme}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" animated />
       <Routes />
+      <Toast ref={ref => Toast.setRef(ref)} />
     </ThemeProvider>
   );
 };

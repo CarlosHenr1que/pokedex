@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
-import {RefreshControl, Alert, FlatList} from 'react-native';
+import {RefreshControl, FlatList} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 import {Container} from './styles';
 
 import api from '../../services/api';
@@ -29,7 +30,11 @@ const Home: React.FC = () => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      Alert.alert('Error', 'Could not load pokemon list');
+      Toast.show({
+        type: 'error',
+        text1: 'Ops, something went wrong',
+        text2: 'Could not load pokemon list',
+      });
     }
   };
 
