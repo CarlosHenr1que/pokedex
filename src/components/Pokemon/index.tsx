@@ -10,11 +10,15 @@ export interface PokemonType {
 
 export interface PokemonProps {
   pokemon: PokemonType;
+  onPress: (pokemon: PokemonType) => void;
 }
 
-const Pokemon: React.FC<PokemonProps> = ({pokemon: {name, image_url}}) => {
+const Pokemon: React.FC<PokemonProps> = ({
+  pokemon: {id, name, image_url},
+  onPress,
+}) => {
   return (
-    <Container>
+    <Container onPress={() => onPress({id, image_url, name})}>
       <Content>
         <Name>{name}</Name>
         <Image source={{uri: image_url}} />
