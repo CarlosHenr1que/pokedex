@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useRef, useState} from 'react';
-import {View, Animated, Text} from 'react-native';
+import {View, Animated, Text, StyleSheet} from 'react-native';
 
 interface StatType {
   base_stat: number;
@@ -33,43 +33,51 @@ const Stat: React.FC<ProgressProps> = ({step, steps, height, stat}) => {
     reactive.setValue(-width + (width * step) / steps);
   }, [width, step]);
 
+  const styles = StyleSheet.create({
+    container: {
+      margin: 10,
+    },
+    name: {
+      fontSize: 16,
+      color: '#fff',
+      fontFamily: 'Nunito-Bold',
+    },
+    progress: {
+      height,
+      backgroundColor: '#C4C4C4',
+      borderRadius: height,
+      overflow: 'hidden',
+      width: '100%',
+    },
+    step: {
+      height,
+      width: '100%',
+      borderRadius: height,
+      backgroundColor: '#09D72A',
+      position: 'absolute',
+      justifyContent: 'center',
+    },
+  });
+
   return (
-    <View
-      style={{
-        margin: 10,
-      }}>
-      <Text
-        style={{
-          fontSize: 16,
-          color: '#fff',
-        }}>
-        {stat.stat.name.toUpperCase()}
-      </Text>
+    <View style={styles.container}>
+      <Text style={styles.name}>{stat.stat.name.toUpperCase()}</Text>
       <View
         onLayout={e => {
           setWidth(e.nativeEvent.layout.width);
         }}
-        style={{
-          height,
-          backgroundColor: '#C4C4C4',
-          borderRadius: height,
-          overflow: 'hidden',
-          width: '100%',
-        }}>
+        style={styles.container}>
         <Animated.View
-          style={{
-            height,
-            width: '100%',
-            borderRadius: height,
-            backgroundColor: '#fff',
-            position: 'absolute',
-            justifyContent: 'center',
-            transform: [
-              {
-                translateX: animatedValue,
-              },
-            ],
-          }}
+          style={[
+            styles.step,
+            {
+              transform: [
+                {
+                  translateX: animatedValue,
+                },
+              ],
+            },
+          ]}
         />
       </View>
     </View>
