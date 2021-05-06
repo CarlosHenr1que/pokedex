@@ -5,7 +5,7 @@ export const Container = styled.TouchableOpacity`
     props.theme.metrics.screenWidth - props.theme.metrics.basePadding * 2}px;
   height: 112px;
   border-radius: ${props => props.theme.metrics.baseRadius}px;
-  background-color: ${props => props.theme.colors.primary};
+  background-color: ${props => props.theme.colors.tertiary};
   border-width: 1px;
   border-color: #000;
   align-items: center;
