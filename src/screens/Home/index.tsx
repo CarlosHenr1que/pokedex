@@ -9,6 +9,7 @@ import api from '../../services/api';
 import Header from '../../components/Header';
 import Pokemon, {PokemonType} from '../../components/Pokemon';
 import {mapToPokemontype} from '../../utils';
+import NotFound from '../../components/NotFound';
 
 const Home: React.FC = () => {
   const [pokemonList, setPokemonList] = useState<PokemonType[]>([]);
@@ -53,6 +54,9 @@ const Home: React.FC = () => {
         contentContainerStyle={{
           alignItems: 'center',
         }}
+        ListEmptyComponent={() => (
+          <NotFound error="No Pokemon found" onPress={getPokemons} />
+        )}
         refreshControl={<RefreshControl refreshing={loading} />}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0}
